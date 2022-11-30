@@ -19,13 +19,14 @@ public class CarService {
             ));
 
     //@Cacheable(value = "priceFilterCache",key = "#root.method")
-    @Cacheable(value = "priceFilterCache", keyGenerator = "keyGenerator")
+    @Cacheable(value = "priceCacheManager", cacheManager = "priceFilterCacheManager")
     public List<Car> getCarsWithPriceFilter(Double min, Double max) {
         return cars.stream()
                 .filter(car -> car.getPrice() >= min && car.getPrice() <= max)
                 .toList();
     }
 
+    @Cacheable(value = "brandFilterCache",cacheManager = "brandFilterCacheManager")
     public List<Car> getCarsWithBrandFilter(String brand) {
         return cars.stream()
                 .filter(car -> car.getBrand().equals(brand))
